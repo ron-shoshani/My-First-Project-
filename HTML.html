@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+
+<html>
+<body>
+<div class="content">
+<style type="text/css">
+.content {
+  min-height: calc(100vh - 60px);
+}
+.footer {
+  height: 45px;
+}
+  #head{
+    background-color: darkblue;
+    text-align: center;
+    font-size: 35px;
+    font-family: verdana;
+    height: 180px;
+    color: white;
+  }
+
+  #show{
+    border:1px solid black;
+    height: 400px;
+    width: 500px;
+    margin:0 auto;
+    margin-top: 20px;
+  }
+
+  #demo{
+    text-align: center;
+    height: 40px;
+    padding-top: 10px;
+    background-color: lightgrey;
+  }
+
+  #showdata, #clear, #insert {
+    font-size: 16px;
+    margin-right: 10px;
+  }
+
+  #title {
+    text-align: center;
+    margin-top: 10px;
+    font-size: 15px;
+    font-family: cursive;
+    color: red;
+  }
+
+  #table{
+    text-align: left;
+    margin: 0 auto;
+    margin-top: 20px;
+    margin-left: 40px;
+    font-family: cursive;
+  }
+
+</style>
+
+<div id="head">
+<header style="line-height: 110px">IS video - HR platfrom</header>
+<header style="line-height: 50px">Employee card</header>
+</div>
+
+<div id="show">
+<div id="demo">  
+  <button type="button" id="showdata" onclick="loadDoc()">Show Data</button>
+  <input  type="text" name="file name" id="filetype"> </input>
+  <button type="button" id="clear" onclick="clearType()">Clear</button>
+</div> 
+
+
+<div id="title">
+</div>
+
+  <table id="table">
+
+    <tr>
+     <th>Name:</th>
+     <th id="name"></th> 
+    </tr>
+    <tr>
+     <th>Address:</th>
+     <th id="address"></th> 
+    </tr>
+    <tr>
+     <th>Phone:</th>
+     <th id="phone"></th> 
+    </tr>
+    <tr>
+     <th>Information:</th>
+     <th id="information"></th> 
+    </tr>
+  
+  </table>
+
+</div>
+
+<script type="text/javascript">
+  
+function loadDoc() {
+clearType();
+fileName = document.getElementById('filetype').value.toLowerCase();
+  if (fileName == "") {
+    missingData("Please Insert Employee Name");
+ }
+ else {
+  var url = "http://localhost:8080/page1?application=" + fileName;
+  var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            data = JSON.parse(this.responseText);
+            if (data.name === '') {
+              missingData("Please update Employee name in system");
+            }
+            else if (data.name =='None') {
+              console.log(data);
+              missingData("Employee doesn't exist in system");
+            }
+            else if (data.phone === '') {
+              missingData('Please update Employee phone in system');
+            }
+            else {
+            document.getElementById("name").innerHTML = data.name;
+            document.getElementById("address").innerHTML = data.address;
+            document.getElementById("phone").innerHTML = data.phone;
+            document.getElementById("information").innerHTML = data.Information;}
+            //document.getElementById("show").innerHTML =
+            //this.responseText;
+       }
+    };
+    xhttp.open("GET", url, true);
+    xhttp.send(); 
+    fileName="";
+    document.getElementById('filetype').value ="";
+}}
+
+function clearType() {
+    //console.log(ron);
+    document.getElementById("title").innerHTML ="";
+    document.getElementById("name").innerHTML = "";
+    document.getElementById("address").innerHTML = "";
+    document.getElementById("phone").innerHTML = "";
+    document.getElementById("information").innerHTML = "";
+}
+
+function missingData(macro) {
+  document.getElementById("title").innerHTML = macro;
+
+}
+
+</script>
+
+ </div>
+ <footer class="footer" style="background-color: darkblue;"></footer>
+</body>
+</html> 

@@ -6,13 +6,15 @@ var fs = require('fs');
 var getQueryParam = require('get-query-param');
 var path = require('path');
 var arrayContains = require('array-contains');
-//fs = require('fs')
-  //          fs.readFile('json/ron.json', 'utf8', function (err,data) {
-  //            if (err) {
-  //              return console.log(err);
-  //             }
-  //             console.log(data);
-  //          });
+var express = require('express');
+var app = express();
+
+// prepare server
+//app.use('/api', api); // redirect API calls
+app.use('/', express.static(__dirname + '/www')); // redirect root
+app.use('/js', express.static(__dirname + '/node_modules/bootstrap/dist/js')); // redirect bootstrap JS
+app.use('/js', express.static(__dirname + '/node_modules/jquery/dist')); // redirect JS jQuery
+app.use('/css', express.static(__dirname + '/node_modules/bootstrap/dist/css')); // redirect CSS bootstrap
 
 //Lets define a port we want to listen to
 const PORT=8080; 
@@ -42,7 +44,7 @@ server.listen(PORT, function(){
 
 dispatcher.setStatic('/resources');
 
-function readJson (res,name){
+function readJson (res,name) {
     fs.readFile('json/' + name + '.json', 'utf8', function (err,data) {
         res.writeHead(200, {'Content-Type': 'text/plain','Access-Control-Allow-Origin': '*'});
         res.write(data);
@@ -64,10 +66,24 @@ dispatcher.onGet("/page1", function(req, res) {
 
 //A sample POST request
 dispatcher.onPost("/post1", function(req, res) {
+  var params = req.params;
+  var jsonfile = require('jsonfile');
+  var file = 'json/' + params.name + '.json';
+  if ((params.name=="") || (params.address=="") || (params.phone=="")){
     res.writeHead(200, {'Content-Type': 'text/plain','Access-Control-Allow-Origin': '*'});
-    res.end('Got Post Data');
-});
+    res.end('Data is missing in empolyee card!!!');
+  }
+  else if (fs.existsSync(file)) {
+    res.writeHead(200, {'Content-Type': 'text/plain','Access-Control-Allow-Origin': '*'});
+    res.end('Employee card already exist!!!');
+  }
+  else {
+    res.writeHead(200, {'Content-Type': 'text/plain','Access-Control-Allow-Origin': '*'});
+    res.end('Employee card successfuly created!!!');
+    var obj = {name: params.name,address:params.address,phone:params.phone,Information:params.information};
+    jsonfile.writeFileSync(file, obj);
+  }
+  });
 
-//(application == 'ron') || (application == 'liza') || (application == 'meir')
-//path = 'json/' + application + '.json';
-//if (!fileExists(path))
+
+//http-server

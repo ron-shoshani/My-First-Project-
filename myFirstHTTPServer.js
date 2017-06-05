@@ -51,10 +51,23 @@ function readJson (res,name) {
         res.end();
 })};
 
+function getParameterByName(name, url) {
+    if (!url) url = window.location.href;
+    name = name.replace(/[\[\]]/g, "\\$&");
+    var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+        results = regex.exec(url);
+    if (!results) return null;
+    if (!results[2]) return '';
+    return decodeURIComponent(results[2].replace(/\+/g, " "));
+};
+
 //A sample GET request   
 console.log(dispatcher.onGet) 
 dispatcher.onGet("/page1", function(req, res) {
-    application = getQueryParam('application',req.url);
+    //application = getQueryParam('application',decodeURI(req.url));
+    application = getParameterByName('application',req.url);
+    console.log(application);
+    console.log('ron');
     if (fs.existsSync('json/' + application + '.json')) {
 
         readJson(res,application);

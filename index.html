@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<div class="content">
+
+<style type="text/css">
+.content {
+  min-height: calc(100vh - 155px);
+}
+.footer {
+  height: 45px;
+}
+
+.btn-file {
+    position: relative;
+    overflow: hidden;
+}
+.btn-file input[type=file] {
+    position: absolute;
+    top: 0;
+    right: 0;
+    min-width: 100%;
+    min-height: 100%;
+    font-size: 100px;
+    text-align: right;
+    filter: alpha(opacity=0);
+    opacity: 0;
+    outline: none;
+    background: white;
+    cursor: inherit;
+    display: block;
+}
+
+#img-upload{
+    width: 100%;
+}
+</style>
+
+<head>
+<meta charset="utf-8">
+  <title>IS video - HR platfrom</title> 
+  <title>Employee card</title> 
+  <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css">
+  <script src="node_modules/jquery/dist/jquery.min.js"></script>
+  <script src="node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+</head>
+
+<div class="container">
+<div class="col-md-6">
+    <div class="form-group">
+        <label>Upload Image</label>
+        <div class="input-group">
+            <span class="input-group-btn">
+                <span class="btn btn-default btn-file">
+                    Browse… <input type="file" id="imgInp">
+                </span>
+            </span>
+            <input type="text" class="form-control" readonly>
+        </div>
+        <img id='img-upload'/>
+    </div>
+</div>
+</div>
+
+ <form ref='uploadForm' 
+      id='uploadForm' 
+      action='/upload' 
+      method='post' 
+      encType="multipart/form-data">
+        <input type="file" name="sampleFile" />
+        <input type='submit' value='Upload!' />
+    </form> 
+
+
+
+</div>
+
+<footer class="container-fluid text-center bg-lightgray">
+
+        <div class="copyrights">
+            <p>Video Team © 2017, All Rights Reserved
+                <br>
+                <span>Web Design By: Ron Shoshani</span></p>
+            <p><a href="https://www.linkedin.com/in/ron-shoshani-6073a196/" target="_blank">Linkedin <i class="fa fa-linkedin-square" aria-hidden="true"></i> </a></p>
+        </div>
+</footer>
+
+</html> 

@@ -27,7 +27,7 @@
                         <a href="index.html" class="navbar-brand hidden-xs" style="font-size: 22px">IS Video</a>
                 </div>
                 <div class="navbar-header"> 
-                         <a  class="navbar-brand hidden-xs" style="margin-left: 10px; font-size: 18px"> view employee Card</a>
+                         <a  class="navbar-brand hidden-xs" style="margin-left: 10px; font-size: 18px"> View employee Card</a>
                 </div>
 
                 <div class="navbar-collapse collapse" id="navbar">
@@ -99,7 +99,7 @@ fileName = document.getElementById('filetype').value.toLowerCase();
     missingData("Please Insert Employee Name");
  }
  else {
-  var url = "http://localhost:8080/page1?application=" + fileName;
+  var url = "/page1?application=" + fileName;
   var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {

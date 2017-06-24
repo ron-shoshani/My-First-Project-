@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<div class="content">
+
+<style type="text/css">
+.content {
+  min-height: calc(100vh - 155px);
+}
+.footer {
+  height: 45px;
+}
+</style>
+
+<head>
+<meta charset="utf-8">
+  <title>IS video - HR platfrom</title> 
+  <title>Employee card</title> 
+  <link rel="stylesheet" href='/css'>
+  <script src='/jq'></script>
+  <script src='/js'></script>
+</head>
+
+ <div class="navbar navbar-default navbar-fixed-top" style="border-color: darkgrey;">
+        <div class="container-fluid">
+                <div class="navbar-header">
+                        <a href="index.html" class="navbar-brand hidden-xs" style="font-size: 22px">IS Video</a>
+                </div>
+                <div class="navbar-header"> 
+                         <a  class="navbar-brand hidden-xs" style="margin-left: 10px; font-size: 18px"> Create employee Card</a>
+                </div>
+
+                <div class="navbar-collapse collapse" id="navbar">
+                    <ul class="navbar-right nav navbar-nav">
+                        <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#" class="navbar-link">Employees<span class="caret"></span></a>
+                            <ul role="menu" class="dropdown-menu">
+                                <li class="dropdown-header">General</li>
+                                <li><a class="animate" href="viewEmployee.html">View</a></li>
+                                <li><a class="animate" href="addEmployee.html">Add</a></li>
+                                <li role="separator" class="divider"></li>
+                            </ul>
+                        </li>
+                    </ul>
+                 </div>
+        </div>
+  </div>
+
+<body style="margin-top: 70px; ">
+
+<div id="title" style="width: 690px; height: 30px;margin: auto;"></div>
+
+<div class="container" >
+<div style="width: 360px;  margin : 0 auto; ">
+    <div class="form-area">  
+        <form role="form" action="/post1" method="post" id="form">
+        <br style="clear:both">
+                    <h3 style="margin-bottom: 25px; text-align: center;">Create employee card</h3>
+                    <div class="form-group">
+                        <input type="text" class="form-control" id="name" name="name" placeholder="Please insert employee name" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" class="form-control" id="address" name="address" placeholder="Please insert employee address" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" class="form-control" id="mobile" name="mobile" placeholder="Please insert employee phone number" required>
+                    </div>
+                    <div class="form-group">
+                    <textarea class="form-control" type="textarea" id="message" placeholder="Information (optional)" maxlength="140" rows="7"></textarea></div>  
+        <button type="button" id="submit" name="submit" class="btn btn-primary pull-right" onclick="verifyInput()">Submit Card</button>
+        </form>
+    </div>
+</div>
+</div>
+
+</body>
+</div>
+
+<footer class="container-fluid text-center bg-lightgray">
+        <div class="copyrights">
+            <p>Video Team © 2017, All Rights Reserved
+                <br>
+                <span>Web Design By: Ron Shoshani</span></p>
+            <p><a href="https://www.linkedin.com/in/ron-shoshani-6073a196/" target="_blank">Linkedin <i class="fa fa-linkedin-square" aria-hidden="true"></i> </a></p>
+        </div>
+</footer>
+
+<script type="text/javascript">
+
+function verifyInput(){
+    document.getElementById("title").innerHTML ="";
+    name = document.getElementById('name').value;
+    address = document.getElementById('address').value;
+    mobile = document.getElementById('mobile').value;
+    information = document.getElementById('message').value;
+
+    if (name ==""){missingData('Name is a mandtory field');}
+        else if (address =="") {missingData('Address is a mandtory field');}
+        else if (mobile =="") {missingData('Phone number is a mandtory field');}
+        else if (isNaN(mobile)) {missingData('Phone number must be numeric');}
+            else{createCard(name,address,mobile,information);}
+}
+
+function createCard (name,address,mobile,information) {
+    var http = new XMLHttpRequest();
+    var params = "name="+name+"&address="+address+"&phone="+mobile+"&information="+information;
+    var url = "/post1?"+params;
+    console.log(params);
+    http.open("POST", url, true);
+
+    //Send the proper header information along with the request
+    http.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+
+    http.onreadystatechange = function() {//Call a function when the state changes.
+        if(http.readyState == 4 && http.status == 200) {
+            alert(http.responseText);
+        }
+    }
+    http.send();
+    var form = document.getElementById("form");
+    form.reset();
+}
+
+function missingData(macro) {
+  var div = document.createElement("div");
+  div.className = "alert alert-danger";
+  div.style="width: 390px; margin: auto; text: center";
+  div.innerHTML = macro;
+  if (title.innerHTML==""){
+  document.getElementById("title").appendChild(div);
+}}
+
+</script>
+</html> 
